@@ -5,6 +5,7 @@ import com.tinycompiler.model.Node;
 import com.tinycompiler.model.Token;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by lakshmi on 5/22/17.
@@ -93,6 +94,14 @@ public class TinyCompiler {
 
         if (token.type.equals("paren") && token.value.equals("(")){
              //TODO https://www.youtube.com/watch?v=Tar4WgAfMr4&index=1&list=PLHEcW6YwumbpmDB_BWoy5wSVQzrVBLWPI&t=1312s
+            //skip open paren
+            token = tokens.get(++current);
+            Node node = new Node(token.type, token.value);
+            token = tokens.get(++current);
+            while (!token.type.equals("paren") || !token.value.equals(")")){
+                //push params of this call expression
+            }
+
         }
         return  null;
     }
