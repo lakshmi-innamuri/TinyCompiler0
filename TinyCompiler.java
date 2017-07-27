@@ -1,5 +1,7 @@
 package com.tinycompiler;
 
+import com.tinycompiler.exceptions.TypeError;
+import com.tinycompiler.model.Node;
 import com.tinycompiler.model.Token;
 
 import java.util.ArrayList;
@@ -7,11 +9,13 @@ import java.util.ArrayList;
 /**
  * Created by lakshmi on 5/22/17.
  *
+ * Reference
+ * https://www.youtube.com/watch?v=Tar4WgAfMr4&index=1&list=PLHEcW6YwumbpmDB_BWoy5wSVQzrVBLWPI
  *  (add(2, sub(4, 5)))
  */
 public class TinyCompiler {
 
-    ArrayList<Token> tokenizer(String input){
+    ArrayList<Token> tokenizer(String input) throws TypeError {
         int current = 0;
         ArrayList<Token> tokens = new ArrayList<>();
 
@@ -68,12 +72,37 @@ public class TinyCompiler {
                 tokens.add(token);
                 continue;
             }
+
+            throw new TypeError("can't recognize this"+ch);
         }
         return tokens;
     }
 
+    void parser(ArrayList<Token> tokens){
+        int current = 0;
+
+    }
+
+    Node walk(ArrayList<Token> tokens, int current){
+
+        Token token = tokens.get(current);
+        if(token.type.equals("number")){
+            current ++;
+            return new Node(token.type, token.value);
+        }
+
+        if (token.type.equals("paren") && token.value.equals("(")){
+             //TODO https://www.youtube.com/watch?v=Tar4WgAfMr4&index=1&list=PLHEcW6YwumbpmDB_BWoy5wSVQzrVBLWPI&t=1312s
+        }
+        return  null;
+    }
+
     public static void main(String args[]){
         TinyCompiler tn = new TinyCompiler();
-        ArrayList<Token> tokens = tn.tokenizer("(add(3 sub(4 5)))");
+        try {
+            ArrayList<Token> tokens = tn.tokenizer("(add(3 sub(4 5)))");
+        } catch (TypeError typeError) {
+            typeError.printStackTrace();
+        }
     }
 }
